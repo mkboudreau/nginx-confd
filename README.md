@@ -21,6 +21,7 @@ docker run -d -e NGINX_HOST=www.myhost.com -e UPSTREAM_APP1=192.168.0.1:8080 -e 
 ```
 
 **Explanation of Command**
+
 1. The command is running in daemon mode `-d`.
 2. The command is telling nginx that its server name is www.myhost.com with the env var `NGINX_HOST`
 3. The command is setting nginx to reverse proxy to two hosts: 192.168.0.1:8080 and 192.168.0.2:8080
