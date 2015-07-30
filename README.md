@@ -10,12 +10,13 @@ Of course, advanced docker users, could easily swap out any of the files using `
 
 ## Basic Usage
 Besides the typical docker options, such as -d for daemon mode and -p for port mapping, the env vars this docker image accepts are as follows:
-- **NGINX_HOST**: This sets the server name of the nginx config
-- **UPSTREAM_<name>**: There can be several env vars that are prefixed with *UPSTREAM_*. There must be some unique name after each UPSTREAM_ prefix.
+- `NGINX_HOST`: This sets the server name of the nginx config
+- `UPSTREAM_<name>`: There can be several env vars that are prefixed with `UPSTREAM_`. There must be some unique name after each UPSTREAM_ prefix.
 
 ## Example
 
 **Command**
+
 ```bash
 docker run -d -e NGINX_HOST=www.myhost.com -e UPSTREAM_APP1=192.168.0.1:8080 -e UPSTREAM_APP2=192.168.0.2:8080 -p 80:80 mkboudreau/nginx-confd
 ```
