@@ -3,15 +3,15 @@
 ## Summary
 This docker image allows a quick reverse proxy set up in nginx. It has confd embedded to allow passing in a couple parameters either as an env var or from a config server such as etcd, consul, zookeeper, etc.
 
-## Limitations
-Currently the set up is for http only, no https. In addition, the config options that can be easily setup are only for the server name and the reverse proxied host:port. 
-
-Of course, advanced docker users, could easily swap out any of the files using `-v`.
-
 ## Basic Usage
 Besides the typical docker options, such as -d for daemon mode and -p for port mapping, the env vars this docker image accepts are as follows:
 - `NGINX_HOST`: This sets the server name of the nginx config
 - `UPSTREAM_<name>`: There can be several env vars that are prefixed with `UPSTREAM_`. There must be some unique name after each UPSTREAM_ prefix.
+- `NGINX_TLS_KEY`: This sets the path to the key file in the docker container. Preferably, this is volume mounted into the container.
+- `NGINX_TLS_CERTIFICATE`: This sets the path to the certificate file in the docker container. Preferably, this is volume mounted into the container.
+- `NGINX_TLS_ONLY`: This will make sure there is no listener on port 80.
+
+If none of the NGINX_TLS_* options are set, then the nginx server will not attempt to listen on port 443. 
 
 ## Example
 

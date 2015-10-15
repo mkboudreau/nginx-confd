@@ -5,6 +5,7 @@ upstream appserver {
 {{end}}
 }
 
+{{if not (exists (printf "/nginx/tls/only"))}}
 server {
     listen 80;
 
@@ -23,3 +24,37 @@ server {
         proxy_redirect off;
     }
 }
+{{end}}
+
+{{if or ((exists (printf "/nginx/tls/certificate")) (exists (printf "/nginx/tls/key")))}}
+server {
+    listen 443 ssl;
+
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+
+{{if exists (printf "/nginx/hostname")}}
+    server_name {{getv "/nginx/hostname"}};
+{{else}}
+    server_name localhost;
+{{end}}
+
+{{if exists (printf "/nginx/tls/certificate")}}
+    ssl_certificate    {{getv "/nginx/tls/certificate"}};
+{{end}}
+{{if exists (printf "/nginx/tls/key")}}
+    ssl_certificate_key {{getv "/nginx/tls/key"}};
+{{end}}
+
+    location / {
+        proxy_set_header        Host $host;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_pass              http://appserver;
+        proxy_redirect off;
+    }
+}
+{{end}}

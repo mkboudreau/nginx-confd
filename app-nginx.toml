@@ -1,6 +1,7 @@
 [template]
 keys = [
     "/upstream",
+    "/nginx",
 ]
 owner = "nginx"
 mode = "0644"
