@@ -15,10 +15,15 @@ If none of the NGINX_TLS_* options are set, then the nginx server will not attem
 
 ## Example
 
-**Command**
+**Basic Command with no TLS**
 
 ```bash
-docker run -d -e NGINX_HOST=www.myhost.com -e UPSTREAM_APP1=192.168.0.1:8080 -e UPSTREAM_APP2=192.168.0.2:8080 -p 80:80 mkboudreau/nginx-confd
+docker run -d 
+    -e NGINX_HOST=www.myhost.com 
+    -e UPSTREAM_APP1=192.168.0.1:8080 
+    -e UPSTREAM_APP2=192.168.0.2:8080 
+    -p 80:80 
+    mkboudreau/nginx-confd
 ```
 
 **Explanation of Command**
@@ -28,3 +33,32 @@ docker run -d -e NGINX_HOST=www.myhost.com -e UPSTREAM_APP1=192.168.0.1:8080 -e 
 3. The command is setting nginx to reverse proxy to two hosts: 192.168.0.1:8080 and 192.168.0.2:8080
 4. The command is setting nginx to listen on port 80 by mapping the internal docker container port 80 to external 80
 
+## More Examples
+
+**Basic Command with TLS**
+
+```bash
+docker run -d 
+    -e NGINX_HOST=www.myhost.com 
+    -e UPSTREAM_APP1=192.168.0.1:8080 
+    -e UPSTREAM_APP2=192.168.0.2:8080 
+    -e NGINX_TLS_KEY=/<path>/tls.key 
+    -e NGINX_TLS_CERTIFICATE=/<path/tls.crt 
+    -p 80:80 
+    -p 443:443
+    mkboudreau/nginx-confd
+```
+
+**Basic Command with TLS ONLY**
+
+```bash
+docker run -d 
+    -e NGINX_HOST=www.myhost.com 
+    -e UPSTREAM_APP1=192.168.0.1:8080 
+    -e UPSTREAM_APP2=192.168.0.2:8080 
+    -e NGINX_TLS_KEY=/<path>/tls.key 
+    -e NGINX_TLS_CERTIFICATE=/<path/tls.crt 
+    -e NGINX_TLS_ONLY=true
+    -p 443:443
+    mkboudreau/nginx-confd
+```
